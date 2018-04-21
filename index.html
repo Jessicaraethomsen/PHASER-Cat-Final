@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CATCH A CAT</title>
+<script type="text/javascript" src="js/phaser2.10.3.min.js"></script>
+<script type="text/javascript" src="Boot.js"></script>
+<script type="text/javascript" src="Preloader.js"></script>
+<script type="text/javascript" src="StartMenu.js"></script>
+<script type="text/javascript" src="Game.js"></script>
+	<script type="text/javascript" src="Game2.js"></script>
+
+	<style>
+		body{
+			padding:0;
+			margin:0;
+			background: #f2f2f2;
+		}
+
+	</style>
+</head>
+
+<body>
+<h1>CATCH A CAT</h1>
+	<div id="gameContainer"></div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var game = new Phaser.Game(800, 500, Phaser.AUTO, 'gameContainer');
+			game.state.add('Boot', CatchACat.Boot);
+			game.state.add('Preloader', CatchACat.Preloader);
+			game.state.add('StartMenu', CatchACat.StartMenu);
+			game.state.add('Game', CatchACat.Game);
+			game.state.add('Game2', CatchACat.Game2);
+			game.state.start('Boot');
+			
+			
+		}
+	</script>
+</body>
+</html>
