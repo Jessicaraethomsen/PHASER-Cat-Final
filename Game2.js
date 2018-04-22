@@ -2,11 +2,14 @@ var catcher2, cat2, cursors2;
 var score2, scoreTXT2;
 var timer2, timerEvent2, text2;
 var winText2, loseText2;
-var countDown2 = 15;
+//var group;
+var countDown2 = 20;
 
 
 CatchACat.Game2 = function (game) {
 	'use strict';
+	this.background2;
+    this.boing2;
 };
 
 CatchACat.Game2.prototype = {
@@ -14,6 +17,12 @@ CatchACat.Game2.prototype = {
 	create: function () {
 		'use strict';
 		this.buildWorld2();
+		//this.buildTrees();
+		
+		
+		this.background2 = this.add.audio('background2');
+	   	this.background2.play('', 0, 0.3, true);
+	   	this.boing2 = this.add.audio('meow');
 
 		catcher2 = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher2');
 		catcher2.anchor.setTo(0.5, 0.5);
@@ -24,6 +33,7 @@ CatchACat.Game2.prototype = {
 		cat2.anchor.setTo(0.5, 0.5);
 		this.physics.enable(cat2, Phaser.Physics.ARCADE);
 		cat2.enableBody = true;
+		
 		
 		cursors2 = this.input.keyboard.createCursorKeys();
 
@@ -46,16 +56,21 @@ CatchACat.Game2.prototype = {
       
         text2.anchor.set(0.5);
 
-
+		
 	},
 
 
 	update: function () {
 		'use strict';
 		this.keyboard2();
-		this.physics.arcade.overlap(cat2, catcher2, jungleHitHandler, null, this);	
+		this.physics.arcade.overlap(cat2, catcher2, jungleHitHandler, null, this);
+		//this.physics.arcade.collide(catcher2, group, null, this);	
+
 	},
 
+	
+	
+	
 	
 	keyboard2:function(){
 		'use strict';
@@ -101,11 +116,24 @@ CatchACat.Game2.prototype = {
 	},
 	
 	
+/*	buildTrees: function () {
+		group = this.add.physicsGroup(Phaser.Physics.ARCADE);
+		group.enableBody = true;
+		for (var i = 0; i < 25; i++){
+            var c = this.bunnygroup.create(this.rnd.integerInRange(05, this.world.width-10), this.rnd.integerInRange(0, this.35), 'palm');
+						
+		c.body.immovable = true;
+	
+		}
+		},*/
+
+	
+	
 	
 	render: function () {
 		'use strict';
         // If our timer is running, show the time in a nicely formatted way, else show 'Done!'
-        if (!timer2.running && score2 !== 6) {
+        if (!timer2.running && score2 !== 10) {
 			loseText2 = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', 'You Lost!!! -\n click  to Try Again', 24);
     		loseText2.anchor.setTo(0.5, 0.5);
 			this.input.onDown.addOnce(restart2, this);
@@ -140,11 +168,12 @@ CatchACat.Game2.prototype = {
 function jungleHitHandler(){
 		'use strict';
 		console.log('jungle caught!');
+		this.boing2.play();
 		cat2.x = this.world.width * Math.random();
 		cat2.y = this.world.height * Math.random();
 		score2++;
 		scoreTXT2.setText(score2.toString());
-		if (score2 === 6) {
+		if (score2 === 10) {
 		winText2 = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', "- You won it all, Baby!! -\nclick for the Menu", 24);
 		this.input.onDown.addOnce(nextLevel2, this);
     	winText2.anchor.setTo(0.5, 0.5);
@@ -163,6 +192,9 @@ function restart2() {
 
 	function nextLevel2() {
 	'use strict';
+  
     winText2.destroy();
+		  
+	this.background2.stop();
 	this.state.start('StartMenu');	
 	}

@@ -10,7 +10,7 @@ CatchACat.Preloader.prototype = {
 	preload: function () {
 		'use strict';
 		//this will center the title in the center
-		this.preloadBar = this.add.sprite(this.world.centerX, this.world.centerY, 'preloaderBar');
+		this.preloadBar = this.add.sprite(this.world.centerX, this.world.centerY+90, 'preloaderBar');
 		this.preloadBar.anchor.setTo(0.5, 0.5);
 		this.load.setPreloadSprite(this.preloadBar);
 		
@@ -38,9 +38,13 @@ CatchACat.Preloader.prototype = {
 		
 		this.load.image('palm', 'images/palm.png', 32, 32);
 
-		//music
-		this.load.audio('background','audio/jungle.mp3');
-   		this.load.audio('meow','audio/meow.mp3');
+		//audio1
+		this.load.audio('background','audio/Gameboy.mp3');
+   		this.load.audio('boing','audio/boing.mp3');
+		
+		//audio2
+		this.load.audio('background2','audio/Sunrise.mp3');
+		this.load.audio('boing2','audio/meow.mp3');
 		
 		   
         
@@ -57,6 +61,7 @@ CatchACat.Preloader.prototype = {
 			'use strict';
 		//this runs consistently
 			this.ready = true;
+			
 			this.state.start('StartMenu');
 		},
 

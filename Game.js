@@ -9,15 +9,22 @@ CatchACat.Game = function(game) {
 	this.cat1;
 	this.bg1;
 	
+	this.music;
+    this.boing;
+	
+	
 };
 
 CatchACat.Game.prototype = {
     
 create:function(){
 	 'use strict';
-	this.buildWorld();
 	
+		this.buildWorld();
+		this.music = this.add.audio('background');
+	   	this.music.play('', 0, 0.3, true);
 	
+	   	this.boing = this.add.audio('boing');
 		catcher = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher1');
         catcher.anchor.setTo(0.5, 0.5);
         this.physics.enable(catcher, Phaser.Physics.ARCADE);
@@ -27,6 +34,8 @@ create:function(){
         cat.anchor.setTo(0.5, 0.5);
         this.physics.enable(cat, Phaser.Physics.ARCADE);
         cat.enableBody = true;
+		
+	
 		
 
 		cursors = this.input.keyboard.createCursorKeys();
@@ -66,6 +75,7 @@ create:function(){
    buildWorld:function(){
 	 'use strict';
 		this.add.image(0,0, 'bg1');
+	  
 	},
 	
 
@@ -108,7 +118,7 @@ create:function(){
     render: function () {
 		'use strict';
         // If our timer is running, show the time in a nicely formatted way, else show 'Done!'
-        if (!timer.running && score !== 6) {
+        if (!timer.running && score !== 10) {
 			loseText = this.add.bitmapText(this.world.centerX-155, this.world.centerY+180, 'eightbitwonder', 'play again', 24);
     		loseText.anchor.setTo(0.5, 0.5);
 			this.input.onDown.addOnce(restart, this);
@@ -141,11 +151,12 @@ create:function(){
 function catHitHandler(){
 		'use strict';
 		console.log('Cat caught!');
+	    this.boing.play();
 		cat.x = this.world.width * Math.random();
 		cat.y = this.world.height * Math.random();
 		score++;
 		scoreTXT.setText(score.toString());
-		if (score === 6) {
+		if (score === 10) {
 		winText = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', "- YOU WON.. -\nClick for Level 2", 28);
 		this.input.onDown.addOnce(nextLevel, this);
     	winText.anchor.setTo(0.5, 0.5);
@@ -165,6 +176,7 @@ function catHitHandler(){
 	function nextLevel() {
 	'use strict';
     winText.destroy();
+    this.music.stop();
 	this.state.start('Game2');	
 	}
 

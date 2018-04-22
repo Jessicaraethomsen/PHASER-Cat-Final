@@ -15,11 +15,11 @@ CatchACat.Boot.prototype = {
 		this.input.maxPointers = 1;
 
 		this.stage.disableVisibilityChange = false;
-		this.scale.pageAlignHorizontally = true;
-		this.scale.pageAlignVertically = true;
+		//this.scale.pageAlignHorizontally = true;
+		//this.scale.pageAlignVertically = true;
  		this.input.addPointer();
 
-		this.stage.backgroundColor = '#0e141f';
+		this.stage.backgroundColor = '#0086ff';
         this.state.start('Preloader');
     }
 };// JavaScript Document

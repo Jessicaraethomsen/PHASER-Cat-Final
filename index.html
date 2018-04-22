@@ -8,21 +8,89 @@
 <script type="text/javascript" src="Preloader.js"></script>
 <script type="text/javascript" src="StartMenu.js"></script>
 <script type="text/javascript" src="Game.js"></script>
-	<script type="text/javascript" src="Game2.js"></script>
+<script type="text/javascript" src="Game2.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 
 	<style>
+		@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 		body{
 			padding:0;
 			margin:0;
 			background: #f2f2f2;
 		}
 
+		#game{
+			margin: 0;
+			width: 100%;
+			
+		}
+		
+		.title{
+			margin-top: 40px;
+			margin-bottom: 40px;
+		}
+		
+		.game-tekst{
+			padding:0;
+			margin:0;
+		}
+		
+		#gameContainer{
+			padding:0;
+			margin:0;
+		}
+		
+		canvas{
+		display: block;
+    margin: 0 auto;
+		}
+		
+		h1{
+	font-family: 'Press Start 2P', cursive;
+	color: #0086ff;
+	margin: 0, auto;
+	width: 100%;
+	margin-bottom: 20px;
+		}
+		
+		
+	
 	</style>
 </head>
 
 <body>
-<h1>CATCH A CAT</h1>
-	<div id="gameContainer"></div>
+
+
+
+
+<div id="game" class="container">
+ <div class="row">
+ <div class="col-12">
+   <h1 class="text-center title">CATCH A CAT</h1>
+
+   </div>
+</div>
+ <div class="row">
+  <div class="col-sm-9"> <div id="gameContainer"></div></div>
+  <div class="col-sm-3 game-tekst">
+   <h2>How to Play</h2>
+   <h3>
+   Level 1:
+   </h3>
+	  <p>Catch 10 space kitties in 30 seconds.</p>
+      <h3>
+   Level 2:
+   </h3>
+     <p>Catch 10 jungle kitties in 20 seconds.</p>
+   </div>
+</div>
+    
+   
+</div>
+
+	
 	<script type="text/javascript">
 		window.onload = function(){
 			var game = new Phaser.Game(800, 500, Phaser.AUTO, 'gameContainer');
