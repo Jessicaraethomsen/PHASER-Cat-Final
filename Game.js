@@ -170,6 +170,7 @@ function catHitHandler(){
 	function restart() {
 	'use strict';
     loseText.destroy();
+	this.music.stop();
 	this.state.start('Game');	
 	}
 

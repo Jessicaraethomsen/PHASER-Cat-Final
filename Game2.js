@@ -1,8 +1,8 @@
-var catcher2, cat2, cursors2;
+var catcher2, cat2, cursors2, palm;
 var score2, scoreTXT2;
 var timer2, timerEvent2, text2;
 var winText2, loseText2;
-//var group;
+var trees, tree;
 var countDown2 = 20;
 
 
@@ -10,6 +10,7 @@ CatchACat.Game2 = function (game) {
 	'use strict';
 	this.background2;
     this.boing2;
+	this.trees;
 };
 
 CatchACat.Game2.prototype = {
@@ -17,13 +18,12 @@ CatchACat.Game2.prototype = {
 	create: function () {
 		'use strict';
 		this.buildWorld2();
-		//this.buildTrees();
 		
 		
 		this.background2 = this.add.audio('background2');
 	   	this.background2.play('', 0, 0.3, true);
-	   	this.boing2 = this.add.audio('meow');
-
+	   	this.boing2 = this.add.audio('boing2');
+		
 		catcher2 = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher2');
 		catcher2.anchor.setTo(0.5, 0.5);
 		this.physics.enable(catcher2, Phaser.Physics.ARCADE);
@@ -34,7 +34,7 @@ CatchACat.Game2.prototype = {
 		this.physics.enable(cat2, Phaser.Physics.ARCADE);
 		cat2.enableBody = true;
 		
-		
+		this.buildtrees();
 		cursors2 = this.input.keyboard.createCursorKeys();
 
 		//create SCORE
@@ -58,15 +58,31 @@ CatchACat.Game2.prototype = {
 
 		
 	},
-
-
+	
+	
+	
 	update: function () {
 		'use strict';
 		this.keyboard2();
+		
 		this.physics.arcade.overlap(cat2, catcher2, jungleHitHandler, null, this);
-		//this.physics.arcade.collide(catcher2, group, null, this);	
+		this.physics.arcade.collide(tree, catcher2 ,treeHitHandler, null, this);
+
 
 	},
+	
+	
+ buildtrees: function() {
+		 'use strict';
+        this.trees = this.game.add.group();
+        for (var i = 0; i < 200; i++) {
+        var tree= this.trees.create(this.world.randomX, this.world.randomY, 'palm');
+        this.trees.add(tree);
+		this.trees.enableBody = true;
+        }
+    },
+
+
 
 	
 	
@@ -113,22 +129,11 @@ CatchACat.Game2.prototype = {
 	buildWorld2: function () {
 		'use strict';
 		this.add.image(0, 0, 'bg2');
+
 	},
 	
-	
-/*	buildTrees: function () {
-		group = this.add.physicsGroup(Phaser.Physics.ARCADE);
-		group.enableBody = true;
-		for (var i = 0; i < 25; i++){
-            var c = this.bunnygroup.create(this.rnd.integerInRange(05, this.world.width-10), this.rnd.integerInRange(0, this.35), 'palm');
-						
-		c.body.immovable = true;
-	
-		}
-		},*/
 
-	
-	
+
 	
 	render: function () {
 		'use strict';
@@ -184,17 +189,32 @@ function jungleHitHandler(){
 	}}
 
 
+
+function treeHitHandler(){
+		'use strict';
+		console.log('boom!');		
+		
+	}
+
+
 function restart2() {
 	'use strict';
     loseText2.destroy();
+	this.background2.stop();
 	this.state.start('Game2');	
 	}
 
-	function nextLevel2() {
+
+
+function nextLevel2() {
 	'use strict';
   
-    winText2.destroy();
-		  
+    winText2.destroy();  
 	this.background2.stop();
 	this.state.start('StartMenu');	
 	}
+
+
+
+
+
