@@ -3,7 +3,7 @@ var score2, scoreTXT2;
 var timer2, timerEvent2, text2;
 var winText2, loseText2;
 var trees, tree;
-var countDown2 = 20;
+var countDown2 = 25;
 
 
 CatchACat.Game2 = function (game) {
@@ -11,6 +11,9 @@ CatchACat.Game2 = function (game) {
 	this.background2;
     this.boing2;
 	this.trees;
+	
+	this.lose;
+    this.win;
 };
 
 CatchACat.Game2.prototype = {
@@ -22,7 +25,11 @@ CatchACat.Game2.prototype = {
 		
 		this.background2 = this.add.audio('background2');
 	   	this.background2.play('', 0, 0.3, true);
+		
 	   	this.boing2 = this.add.audio('boing2');
+		
+		this.lose = this.add.audio('lose');
+		this.win = this.add.audio('win');
 		
 		catcher2 = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher2');
 		catcher2.anchor.setTo(0.5, 0.5);
@@ -139,8 +146,11 @@ CatchACat.Game2.prototype = {
 		'use strict';
         // If our timer is running, show the time in a nicely formatted way, else show 'Done!'
         if (!timer2.running && score2 !== 10) {
+			
+
 			loseText2 = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', 'You Lost!!! -\n click  to Try Again', 24);
     		loseText2.anchor.setTo(0.5, 0.5);
+			
 			this.input.onDown.addOnce(restart2, this);
 			text2.kill();
 			cat2.destroy();
@@ -180,6 +190,8 @@ function jungleHitHandler(){
 		scoreTXT2.setText(score2.toString());
 		if (score2 === 10) {
 		winText2 = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', "- You won it all, Baby!! -\nclick for the Menu", 24);
+		this.win.play();
+
 		this.input.onDown.addOnce(nextLevel2, this);
     	winText2.anchor.setTo(0.5, 0.5);
 		text2.kill();

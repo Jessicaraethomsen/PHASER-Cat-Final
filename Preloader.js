@@ -46,6 +46,9 @@ CatchACat.Preloader.prototype = {
 		this.load.audio('background2','audio/Sunrise.mp3');
 		this.load.audio('boing2','audio/boing.mp3');
 		
+			//audio2
+		this.load.audio('win','audio/win.mp3');
+		this.load.audio('lose','audio/lose.mp3');
 		   
         
     },

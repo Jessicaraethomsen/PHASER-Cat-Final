@@ -11,6 +11,8 @@ CatchACat.Game = function(game) {
 	
 	this.music;
     this.boing;
+	this.lose;
+    this.win;
 	
 	
 };
@@ -19,25 +21,33 @@ CatchACat.Game.prototype = {
     
 create:function(){
 	 'use strict';
+		
 	
+		//build the world function
 		this.buildWorld();
+		//audio music
+		
 		this.music = this.add.audio('background');
 	   	this.music.play('', 0, 0.3, true);
-	
+		//audio soundeffects
 	   	this.boing = this.add.audio('boing');
+		this.lose = this.add.audio('lose');
+		this.win = this.add.audio('win');	
+		
+		//add  my catcher
 		catcher = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher1');
         catcher.anchor.setTo(0.5, 0.5);
         this.physics.enable(catcher, Phaser.Physics.ARCADE);
         catcher.enableBody = true;
 		
+		//add  my car
 		cat = this.add.sprite(this.world.width* Math.random(), this.world.height* Math.random(),'cat1');
         cat.anchor.setTo(0.5, 0.5);
         this.physics.enable(cat, Phaser.Physics.ARCADE);
         cat.enableBody = true;
 		
-	
-		
 
+		//keyboard input
 		cursors = this.input.keyboard.createCursorKeys();
 		
 		//create SCORE
@@ -62,7 +72,7 @@ create:function(){
 	
    },
 	
-	
+	//excutes multiple time per second
 	update: function () {
 	'use strict';
 	this.keyboard();
@@ -115,10 +125,12 @@ create:function(){
     },
 	
 	
+	
     render: function () {
 		'use strict';
         // If our timer is running, show the time in a nicely formatted way, else show 'Done!'
         if (!timer.running && score !== 10) {
+			this.lose.play();
 			loseText = this.add.bitmapText(this.world.centerX-155, this.world.centerY+180, 'eightbitwonder', 'play again', 24);
     		loseText.anchor.setTo(0.5, 0.5);
 			this.input.onDown.addOnce(restart, this);
@@ -147,6 +159,10 @@ create:function(){
 
 };
 
+//end of JavaScript Object Literal
+
+
+//additional functions
 
 function catHitHandler(){
 		'use strict';
@@ -154,12 +170,22 @@ function catHitHandler(){
 	    this.boing.play();
 		cat.x = this.world.width * Math.random();
 		cat.y = this.world.height * Math.random();
+		
+		//add to the score
 		score++;
 		scoreTXT.setText(score.toString());
-		if (score === 10) {
+		
+	//if the plyaer gets 10 do all these wonderful things
+	if (score === 10) {
+			
 		winText = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', "- YOU WON.. -\nClick for Level 2", 28);
+		
 		this.input.onDown.addOnce(nextLevel, this);
-    	winText.anchor.setTo(0.5, 0.5);
+		
+		this.win.play();
+    	
+		winText.anchor.setTo(0.5, 0.5);
+		
 		text.kill();
 		cat.destroy();
 		catcher.destroy();
