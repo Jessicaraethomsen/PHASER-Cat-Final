@@ -20,28 +20,36 @@ CatchACat.Game2.prototype = {
 
 	create: function () {
 		'use strict';
+		
+		//build the world function
 		this.buildWorld2();
 		
-		
+		//adding new music for level2
 		this.background2 = this.add.audio('background2');
 	   	this.background2.play('', 0, 0.3, true);
 		
+		//adding sounds for winner
 	   	this.boing2 = this.add.audio('boing2');
-		
 		this.lose = this.add.audio('lose');
 		this.win = this.add.audio('win');
 		
+		//adding the catcher
 		catcher2 = this.add.sprite(this.world.width/ 2, this.world.height/2, 'catcher2');
 		catcher2.anchor.setTo(0.5, 0.5);
 		this.physics.enable(catcher2, Phaser.Physics.ARCADE);
 		catcher2.enableBody = true;
 
+			
+		//adding the cat
 		cat2 = this.add.sprite(this.world.width * Math.random(), this.world.height * Math.random(),'cat2');
 		cat2.anchor.setTo(0.5, 0.5);
 		this.physics.enable(cat2, Phaser.Physics.ARCADE);
 		cat2.enableBody = true;
 		
+		// here is the build tree function its here so the cat can hide behind the trees
 		this.buildtrees();
+		
+		//keyboard
 		cursors2 = this.input.keyboard.createCursorKeys();
 
 		//create SCORE
@@ -73,6 +81,9 @@ CatchACat.Game2.prototype = {
 		this.keyboard2();
 		
 		this.physics.arcade.overlap(cat2, catcher2, jungleHitHandler, null, this);
+		
+		//my orginal plan was to have the tree group collide but could get it to work
+		//so my second solution was hide in seek in the trees
 		this.physics.arcade.collide(tree, catcher2 ,treeHitHandler, null, this);
 
 
@@ -81,8 +92,10 @@ CatchACat.Game2.prototype = {
 	
  buildtrees: function() {
 		 'use strict';
+	 	//adding a group of trees... here i added 200 trees
         this.trees = this.game.add.group();
         for (var i = 0; i < 200; i++) {
+		//they are random each time
         var tree= this.trees.create(this.world.randomX, this.world.randomY, 'palm');
         this.trees.add(tree);
 		this.trees.enableBody = true;
@@ -91,7 +104,13 @@ CatchACat.Game2.prototype = {
 
 
 
-	
+//building my world
+	buildWorld2: function () {
+		'use strict';
+		this.add.image(0, 0, 'bg2');
+
+	},
+		
 	
 	
 	
@@ -132,12 +151,6 @@ CatchACat.Game2.prototype = {
     },
 	
 
-	//building my world
-	buildWorld2: function () {
-		'use strict';
-		this.add.image(0, 0, 'bg2');
-
-	},
 	
 
 
@@ -183,25 +196,36 @@ CatchACat.Game2.prototype = {
 function jungleHitHandler(){
 		'use strict';
 		console.log('jungle caught!');
+		
+		//make a game noise
 		this.boing2.play();
+		
+		//move the cat after caught
 		cat2.x = this.world.width * Math.random();
 		cat2.y = this.world.height * Math.random();
+		
+		//add to the score
 		score2++;
 		scoreTXT2.setText(score2.toString());
+		
+	
 		if (score2 === 10) {
+			
 		winText2 = this.add.bitmapText(this.world.centerX, this.world.centerY, 'eightbitwonder', "- You won it all, Baby!! -\nclick for the Menu", 24);
+		//make a game noise
 		this.win.play();
-
+			
+		//click to go to the next level
 		this.input.onDown.addOnce(nextLevel2, this);
     	winText2.anchor.setTo(0.5, 0.5);
+		
+		//remove after	
 		text2.kill();
 		cat2.destroy();
 		catcher2.destroy();
 		
 	}}
-
-
-
+//testing the whole tree not passable doesnt work
 function treeHitHandler(){
 		'use strict';
 		console.log('boom!');		
@@ -209,6 +233,7 @@ function treeHitHandler(){
 	}
 
 
+//play again
 function restart2() {
 	'use strict';
     loseText2.destroy();
@@ -217,7 +242,7 @@ function restart2() {
 	}
 
 
-
+// go to the start menu
 function nextLevel2() {
 	'use strict';
   
